@@ -6,9 +6,11 @@ const errorsHandler = require("./middleware/errorsHandler");
 const app = express();
 const port = process.env.SERVER_PORT;
 
+// Middleware per rendere la cartella pubblica accessibile da fuori
+app.use(express.static('public'));
+
 // DEFINISCO I GRUPPI DELLE ROTTE
 app.use("/books", booksRouter);
-
 
 // REGISTRO ERRORS HANDLER MIDDLEWARE
 app.use(errorsHandler);
