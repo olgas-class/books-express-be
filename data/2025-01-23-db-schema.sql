@@ -9,7 +9,7 @@ CREATE TABLE `books`(
 );
 CREATE TABLE `reviews`(
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `book_id` BIGINT NOT NULL,
+    `book_id` BIGINT UNSIGNED NOT NULL,
     `name` VARCHAR(255) NOT NULL,
     `vote` TINYINT NOT NULL,
     `text` TEXT NULL,
