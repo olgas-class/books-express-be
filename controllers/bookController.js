@@ -1,9 +1,21 @@
 const dbConnection = require("../data/dbConnection");
 
 const index = (req, res, next) => {
-  const sql = "SELECT * FROM `books`";
+  // Prelevo query string params
+  const filters = req.query;
+  console.log(filters);
 
-  dbConnection.query(sql, (err, books) => {
+  let sql = "SELECT * FROM `books`";
+  const params = [];
+
+  if (filters.search) {
+    sql += `
+      WHERE title LIKE ?;
+    `;
+    params.push(`%${filters.search}%`);
+  }
+
+  dbConnection.query(sql, params, (err, books) => {
     if (err) {
       return next(new Error(err.message));
     }
@@ -18,7 +30,14 @@ const index = (req, res, next) => {
 const show = (req, res, next) => {
   const id = req.params.id;
 
-  const sql = "SELECT * FROM bookss WHERE id = ?";
+  const sql = `
+    SELECT books.*, CAST(AVG(reviews.vote) as FLOAT) as vote_avg
+    FROM books
+    LEFT JOIN reviews
+    ON reviews.book_id = books.id
+    WHERE books.id = ?
+  `;
+
   const sqlReviews = `
     SELECT reviews.* 
     FROM reviews
@@ -33,7 +52,7 @@ const show = (req, res, next) => {
     }
 
     // Controllare se la corrispondeza è stata trovata
-    if (results.length === 0) {
+    if (results.length === 0 || results[0].id === null) {
       return res.status(404).json({
         status: "fail",
         message: "Libro non trovato",
