@@ -1,0 +1,10 @@
+UPDATE `books_db`.`books` SET `slug` = 'il-nome-della-rosa' WHERE (`id` = '1');
+UPDATE `books_db`.`books` SET `slug` = 'la-divina-commedia' WHERE (`id` = '2');
+UPDATE `books_db`.`books` SET `slug` = 'i-promessi-sposi' WHERE (`id` = '3');
+UPDATE `books_db`.`books` SET `slug` = 'se-questo-e-un-uomo' WHERE (`id` = '4');
+UPDATE `books_db`.`books` SET `slug` = 'lisola-del-tesoro' WHERE (`id` = '5');
+UPDATE `books_db`.`books` SET `slug` = 'il-gattopardo' WHERE (`id` = '6');
+UPDATE `books_db`.`books` SET `slug` = 'pinocchio' WHERE (`id` = '7');
+UPDATE `books_db`.`books` SET `slug` = 'cuore' WHERE (`id` = '8');
+UPDATE `books_db`.`books` SET `slug` = 'la-solitudine-dei-numeri-primi' WHERE (`id` = '9');
+UPDATE `books_db`.`books` SET `slug` = 'il-barone-rampante' WHERE (`id` = '10');
