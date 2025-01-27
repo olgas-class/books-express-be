@@ -7,12 +7,27 @@ const index = (req, res, next) => {
 
   let sql = "SELECT * FROM `books`";
   const params = [];
+  const conditions = [];
 
   if (filters.search) {
-    sql += `
-      WHERE title LIKE ?;
-    `;
+    conditions.push("title LIKE ?");
     params.push(`%${filters.search}%`);
+  }
+
+  // if (filters.genre) {
+  //   conditions.push("genre = ?");
+  //   params.push(filters.genre);
+  // }
+
+  for (const key in req.query) {
+    if (key !== "search") {
+      conditions.push(`${key} = ?`);
+      params.push(req.query[key]);
+    }
+  }
+
+  if (conditions.length > 0) {
+    sql += ` WHERE ${conditions.join(" AND ")}`;
   }
 
   dbConnection.query(sql, params, (err, books) => {
