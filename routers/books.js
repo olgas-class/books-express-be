@@ -7,6 +7,6 @@ const router = express.Router();
 router.get("/", bookController.index);
 
 // SHOW
-router.get("/:id", bookController.show);
+router.get("/:slug", bookController.show);
 
 module.exports = router;
