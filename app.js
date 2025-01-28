@@ -16,6 +16,9 @@ app.use(cors({
 // Middleware per rendere la cartella pubblica accessibile da fuori
 app.use(express.static('public'));
 
+// Middleware che fa il parse di json
+app.use(express.json());
+
 // DEFINISCO I GRUPPI DELLE ROTTE
 app.use("/books", booksRouter);
 
