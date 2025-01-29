@@ -1,3 +1,4 @@
+const slugify = require("slugify");
 const dbConnection = require("../data/dbConnection");
 
 const index = (req, res, next) => {
@@ -104,14 +105,14 @@ const storeReview = (req, res, next) => {
     });
   }
 
-  if(name.length <= 3) {
+  if (name.length <= 3) {
     return res.status(400).json({
       status: "fail",
       message: "Il nome deve essere più lungo di 3 caratteri",
     });
-  } 
+  }
 
-  if(text && text.length > 0 && text.length < 5) {
+  if (text && text.length > 0 && text.length < 5) {
     return res.status(400).json({
       status: "fail",
       message: "Il testo deve essere lungo almeno 6 caratteri",
@@ -157,6 +158,31 @@ const storeReview = (req, res, next) => {
 
 const store = (req, res, next) => {
   console.log("Salvataggio di un libro");
+
+  const imageName = req.file.filename;
+  const { title, author, genre, abstract } = req.body;
+  const slug = slugify(title, {
+    lower: true,
+    strict: true,
+  });
+
+  const sql = `
+    INSERT INTO books(slug, title, author, genre, abstract, image)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
+
+  dbConnection.query(sql, [slug, title, author, genre, abstract, imageName], (err, results) => {
+    if(err) {
+      next(new Error(err.message));
+    }
+
+    return res.status(201).json({
+      status: "success",
+      message: "Il libro è stato salvato",
+    });
+  })
+
+ 
 };
 
 module.exports = {

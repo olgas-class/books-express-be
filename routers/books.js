@@ -1,5 +1,6 @@
 const express = require("express");
 const bookController = require("../controllers/bookController");
+const upload = require("../middleware/fileUpload");
 
 const router = express.Router();
 
@@ -10,7 +11,7 @@ router.get("/", bookController.index);
 router.get("/:slug", bookController.show);
 
 // STORE DI UN LIBRO
-router.post("/", bookController.store);
+router.post("/", upload.single("image"), bookController.store);
 
 // SALVATAGGIO DI UNA REVIEW DI UN LIBRO
 router.post("/:id/reviews", bookController.storeReview);
